@@ -36,6 +36,10 @@ export class ReminderComponent implements OnInit {
 
   reminderList: any = [];
 
+  get reminderFormControl() {
+    return this.reminderForm.controls;
+  }
+
   constructor(private _reminderService: ReminderService, private config: NgbTimepickerConfig, private ngbCalender: NgbCalendar) {
     config.spinners = false;
     config.meridian = true;

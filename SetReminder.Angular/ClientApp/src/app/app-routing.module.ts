@@ -5,7 +5,7 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { HomeComponent } from './home/home.component';
 import { ReminderComponent } from './reminder/reminder.component';
 
-const routes: Routes = [{ path: '', component: HomeComponent, pathMatch: 'full' },
+const routes: Routes = [{ path: '', redirectTo: 'reminder', pathMatch: 'full' },
 { path: 'counter', component: CounterComponent },
 { path: 'fetch-data', component: FetchDataComponent },
 { path: 'reminder', component: ReminderComponent }];
