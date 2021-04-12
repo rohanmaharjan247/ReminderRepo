@@ -1,0 +1,39 @@
+<form [formGroup]="reminderForm" class="form-row">
+  <div class="form-group col-md-6">
+    <label for="reminderName">Reminder</label>
+    <input type="text" class="form-control" formControlName="reminderName" />
+  </div>
+  <div class="form-group col-md-6">
+    <label for="reminderName">Date</label>
+    <div class="input-group">
+      <input class="form-control" placeholder="yyyy-mm-dd"
+             name="dp" formControlName="reminderdateonly" ngbDatepicker #d="ngbDatepicker" [markDisabled]="isDisabled">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><fa-icon [icon]="faCalender"></fa-icon></button>
+      </div>
+      <ngb-timepicker formControlName="reminderTime"></ngb-timepicker>
+    </div>   
+  </div>
+  <div class="form-group col-md-12">
+    <label for="reminderName">Message</label>
+    <textarea maxlength="250" class="form-control" formControlName="reminderMessage"></textarea>
+  </div>
+  <button type="button" class="btn btn-primary" (click)="saveReminder()" [disabled]="reminderForm.invalid">Set Reminder</button>
+</form>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Reminder</th>
+      <th scope="col">Message</th>
+      <th scope="col">Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let reminders of reminderList">
+      <th>{{reminders.reminderName}}</th>
+      <td>{{reminders.reminderMessage}}</td>
+      <td>{{reminders.reminderDate | date: 'dd MMM, yyyy hh:mm a'}}</td>      
+    </tr>
+  </tbody>
+</table>
