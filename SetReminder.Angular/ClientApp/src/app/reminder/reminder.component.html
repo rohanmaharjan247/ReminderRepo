@@ -6,9 +6,9 @@
       </div>
       <div class="card-body">
         <form [formGroup]="reminderForm" class="form-row">
-          <div class="form-group col-md-6">
+          <div class="form-group col-md-12">
             <label for="reminderName">Reminder *</label>
-            <input type="text" class="form-control" formControlName="reminderName" required/>
+            <input type="text" class="form-control" formControlName="reminderName" required />
             <div *ngIf="reminderFormControl.reminderName.invalid && (reminderFormControl.reminderName.dirty || reminderFormControl.reminderName.touched)" class="alert alert-danger">
               <div *ngIf="reminderFormControl.reminderName.errors.required">
                 Reminder Title is required.
@@ -26,12 +26,26 @@
               <ngb-timepicker formControlName="reminderTime" style="margin-left: 10px;"></ngb-timepicker>
             </div>
           </div>
+          <div class="form-group col-md-6">
+            <label for="hours">No. of Days</label>
+            <div class="row">
+              <div class="col-md-6">
+                <input type="text" [formControl]="noOfDays" class="form-control" />
+              </div>
+              <div class="col-md-6">
+                <button type="button" class="btn btn-primary btn-block" (click)="dateAdd()">Add</button>
+              </div>
+            </div>
+          </div>
           <div class="form-group col-md-12">
             <label for="reminderName">Message</label>
             <textarea maxlength="250" class="form-control" formControlName="reminderMessage"></textarea>
           </div>
-          <button type="button" class="btn btn-primary" (click)="saveReminder()" [disabled]="reminderForm.invalid">Set Reminder</button>
+          <div class="form-group col-md-12">
+            <button type="button" class="btn btn-primary" (click)="saveReminder()" [disabled]="reminderForm.invalid">Set Reminder</button>
+          </div>
         </form>
+
 
         <!--<table class="table table-striped">
           <thead>
@@ -58,7 +72,7 @@
                   <h6 class="card-subtitle mb-2 text-muted">{{reminders.reminderDate | date: 'dd MMM, yyyy hh:mm a'}}</h6>
                   <p class="card-text">{{reminders.reminderMessage}}</p>
                   <!--<a href="#" class="card-link">Card link</a>
-        <a href="#" class="card-link">Another link</a>-->
+                  <a href="#" class="card-link">Another link</a>-->
                 </div>
               </div>
             </div>

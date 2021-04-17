@@ -1,3 +1,6 @@
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Calendar.v3;
+using Google.Apis.Util.Store;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,12 +15,14 @@ using SetReminder.Angular.Interfaces;
 using SetReminder.Angular.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
+using System.Threading;
 
 namespace SetReminder.Angular
 {
     public class Startup
-    {
+    { 
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -36,7 +41,7 @@ namespace SetReminder.Angular
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
-            });   
+            });
 
             services.AddScoped<IReminderSetServices, ReminderSetServices>();
         }

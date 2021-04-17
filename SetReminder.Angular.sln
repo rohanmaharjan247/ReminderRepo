@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31129.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetReminder.Angular", "SetReminder.Angular\SetReminder.Angular.csproj", "{40BB7F02-C9E9-45D7-9F2C-E320F8208D23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SetReminder.Angular", "SetReminder.Angular\SetReminder.Angular.csproj", "{40BB7F02-C9E9-45D7-9F2C-E320F8208D23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calendar.GAuth", "Calendar.GAuth\Calendar.GAuth.csproj", "{322BA555-D437-4CC5-801D-4E4C1BCB4D5B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{40BB7F02-C9E9-45D7-9F2C-E320F8208D23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40BB7F02-C9E9-45D7-9F2C-E320F8208D23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40BB7F02-C9E9-45D7-9F2C-E320F8208D23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{322BA555-D437-4CC5-801D-4E4C1BCB4D5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{322BA555-D437-4CC5-801D-4E4C1BCB4D5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{322BA555-D437-4CC5-801D-4E4C1BCB4D5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{322BA555-D437-4CC5-801D-4E4C1BCB4D5B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

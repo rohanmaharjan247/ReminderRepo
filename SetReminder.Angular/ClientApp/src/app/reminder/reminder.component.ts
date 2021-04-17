@@ -36,6 +36,8 @@ export class ReminderComponent implements OnInit {
 
   reminderList: any = [];
 
+  noOfDays = new FormControl(0);
+
   get reminderFormControl() {
     return this.reminderForm.controls;
   }
@@ -48,6 +50,8 @@ export class ReminderComponent implements OnInit {
   ngOnInit(): void {
     this.reminderForm.get('reminderdateonly').setValue(this.ngbCalender.getToday());
     this.reminderForm.get('reminderTime').setValue(this.currentTime);
+    let newDate = new Date(this.reminderForm.get('reminderdateonly').value.year, this.reminderForm.get('reminderdateonly').value.month - 1, this.reminderForm.get('reminderdateonly').value.day, this.reminderForm.get('reminderTime').value.hour, this.reminderForm.get('reminderTime').value.minute, this.reminderForm.get('reminderTime').value.second);
+    this.reminderForm.get('reminderDate').setValue(newDate);
     this.getReminders();
   }
 
@@ -70,7 +74,22 @@ export class ReminderComponent implements OnInit {
       this.reminderForm.reset();
       this.reminderForm.get('reminderdateonly').setValue(this.ngbCalender.getToday());
       this.reminderForm.get('reminderTime').setValue(this.currentTime);
+      this.noOfDays.setValue(0);
     });
+  }
+
+  dateAdd() {
+    let date:Date = this.reminderFormControl.reminderDate.value;
+    date.setDate(date.getDate() + Number(this.noOfDays.value));    
+    let bootstrapDate: NgbDateStruct = {
+      day: date.getDate(),
+      month: date.getMonth(),
+      year: date.getFullYear()
+    }
+    this.reminderFormControl.reminderdateonly.setValue(bootstrapDate);
+
+    
+    //this.reminderForm.get('reminderdateonly').setValue(new Date().setDate(new Date().getDate() + this.noOfDays.value));
   }
 
 }
