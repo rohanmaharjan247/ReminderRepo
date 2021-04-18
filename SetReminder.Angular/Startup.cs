@@ -1,6 +1,8 @@
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Util.Store;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -22,7 +24,7 @@ using System.Threading;
 namespace SetReminder.Angular
 {
     public class Startup
-    { 
+    {
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -33,6 +35,18 @@ namespace SetReminder.Angular
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+            })
+                .AddCookie()
+                .AddGoogle(options =>
+            {
+                options.ClientId = "828767861160-ph21hugi7gmn8uljhc9qt5ndsveqb42o.apps.googleusercontent.com";
+                options.ClientSecret = "C9hhhp_jOBxKTlz4Nw6wV9hQ";
+            });
+
             services.AddControllersWithViews();
             services.Configure<ReminderDbContext>(Configuration.GetSection(nameof(ReminderDbContext)));
 
@@ -44,6 +58,7 @@ namespace SetReminder.Angular
             });
 
             services.AddScoped<IReminderSetServices, ReminderSetServices>();
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,6 +83,11 @@ namespace SetReminder.Angular
             }
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseCors();
 
             app.UseEndpoints(endpoints =>
             {

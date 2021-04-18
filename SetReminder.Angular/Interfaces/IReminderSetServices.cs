@@ -11,5 +11,6 @@ namespace SetReminder.Angular.Interfaces
         void Update(string id, ReminderModel reminder);
         void Delete(ReminderModel reminderIn);
         void Delete(string id);
+        void AuthenticateGoogle();
     }
 }

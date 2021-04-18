@@ -1,5 +1,6 @@
 using MongoDB.Driver;
 using SetReminder.Angular.Context;
+using SetReminder.Angular.Helper;
 using SetReminder.Angular.Interfaces;
 using SetReminder.Angular.Models;
 using System.Collections.Generic;
@@ -32,5 +33,14 @@ namespace SetReminder.Angular.Services
         public void Delete(ReminderModel reminderIn) => _reminders.DeleteOne(reminder => reminder.ReminderId == reminderIn.ReminderId);
         //By id
         public void Delete(string id) => _reminders.DeleteOne(reminder => reminder.ReminderId == id);
+
+        public void AuthenticateGoogle()
+        {
+            GoogleDesktopAuth auth = new GoogleDesktopAuth();
+
+            List<ReminderModel> reminders = _reminders.Find(reminder => reminder.IsActive == true).ToList();
+
+            auth.CreateEvent(reminders);
+        }
     }
 }

@@ -13,7 +13,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Apis.Auth.AspNetCore3" Version="1.51.0" />
     <PackageReference Include="Google.Apis.Calendar.v3" Version="1.51.0.2291" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.14" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.13" />
     <PackageReference Include="MongoDB.Driver" Version="2.12.2" />
   </ItemGroup>
@@ -23,6 +25,20 @@
     <Content Remove="$(SpaRoot)**" />
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Config\gAuthDesktop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Config\gAuthDesktop.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Calendar.GAuth\Calendar.GAuth.csproj" />
   </ItemGroup>
 
   <ItemGroup>

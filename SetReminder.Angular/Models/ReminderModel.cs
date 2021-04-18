@@ -13,6 +13,9 @@ namespace SetReminder.Angular.Models
         public string ReminderId { get; set; }
         public string ReminderName { get; set; }
         public string ReminderMessage { get; set; }
+        public string Location { get; set; }
+        public bool IsActive { get; set; }
         public DateTime ReminderDate { get; set; }
+        public DateTime ReminderEndDate { get; set; }
     }
 }

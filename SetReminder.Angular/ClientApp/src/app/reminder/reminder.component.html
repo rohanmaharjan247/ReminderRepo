@@ -6,7 +6,7 @@
       </div>
       <div class="card-body">
         <form [formGroup]="reminderForm" class="form-row">
-          <div class="form-group col-md-12">
+          <div class="form-group col-md-6">
             <label for="reminderName">Reminder *</label>
             <input type="text" class="form-control" formControlName="reminderName" required />
             <div *ngIf="reminderFormControl.reminderName.invalid && (reminderFormControl.reminderName.dirty || reminderFormControl.reminderName.touched)" class="alert alert-danger">
@@ -16,14 +16,34 @@
             </div>
           </div>
           <div class="form-group col-md-6">
-            <label for="reminderName">Date</label>
+            <label for="reminderName">Location *</label>
+            <input type="text" class="form-control" formControlName="location" required />
+            <div *ngIf="reminderFormControl.location.invalid && (reminderFormControl.location.dirty || reminderFormControl.location.touched)" class="alert alert-danger">
+              <div *ngIf="reminderFormControl.location.errors.required">
+                Location is required.
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="reminderName">Start Date</label>
             <div class="input-group">
               <input class="form-control" placeholder="yyyy-mm-dd"
-                     name="dp" formControlName="reminderdateonly" ngbDatepicker #d="ngbDatepicker" [markDisabled]="isDisabled">
+                     name="dp" [formControl]="reminderdateonly" ngbDatepicker #d="ngbDatepicker" [markDisabled]="isDisabled">
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><fa-icon [icon]="faCalender"></fa-icon></button>
               </div>
-              <ngb-timepicker formControlName="reminderTime" style="margin-left: 10px;"></ngb-timepicker>
+              <ngb-timepicker [formControl]="reminderTime" style="margin-left: 10px;"></ngb-timepicker>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="reminderName">End Date</label>
+            <div class="input-group">
+              <input class="form-control" placeholder="yyyy-mm-dd"
+                     name="dp" [formControl]="reminderEnddateonly" ngbDatepicker #d1="ngbDatepicker" [markDisabled]="isDisabled">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button"><fa-icon [icon]="faCalender"></fa-icon></button>
+              </div>
+              <ngb-timepicker [formControl]="reminderEndTime" style="margin-left: 10px;"></ngb-timepicker>
             </div>
           </div>
           <div class="form-group col-md-6">
@@ -37,12 +57,18 @@
               </div>
             </div>
           </div>
+          <!--<div class="form-group form-check">
+    <input type="checkbox" class="form-check-input" id="isActive" formControlName="isActive">
+    <label class="form-check-label" for="isActive">Active</label>
+  </div>-->
           <div class="form-group col-md-12">
             <label for="reminderName">Message</label>
             <textarea maxlength="250" class="form-control" formControlName="reminderMessage"></textarea>
           </div>
           <div class="form-group col-md-12">
             <button type="button" class="btn btn-primary" (click)="saveReminder()" [disabled]="reminderForm.invalid">Set Reminder</button>
+            <button type="button" class="btn btn-primary btn-margin" (click)="authGoogle()">Sync with Google Calendar</button>
+            <button type="button" class="btn btn-primary btn-margin" (click)="reset()">Cancel</button>
           </div>
         </form>
 
@@ -69,10 +95,12 @@
               <div class="card reminder-card">
                 <div class="card-body">
                   <h5 class="card-title">{{reminders.reminderName}}</h5>
-                  <h6 class="card-subtitle mb-2 text-muted">{{reminders.reminderDate | date: 'dd MMM, yyyy hh:mm a'}}</h6>
-                  <p class="card-text">{{reminders.reminderMessage}}</p>
+                  <h6 class="card-subtitle mb-2 text-muted">{{reminders.reminderDate | date: 'dd MMM, hh:mm a'}} - {{reminders.reminderEndDate | date: 'dd MMM, hh:mm a'}}</h6>
+                  <p class="card-text">{{reminders.reminderMessage}} @ {{reminders.location}}</p>
                   <!--<a href="#" class="card-link">Card link</a>
-                  <a href="#" class="card-link">Another link</a>-->
+  <a href="#" class="card-link">Another link</a>-->
+                  <button type="button" class="btn btn-primary" (click)="getReminderById(reminders.reminderId)">Edit</button>
+                  <button type="button" class="btn btn-primary btn-margin" (click)="deleteReminder(reminders.reminderId)">Delete</button>
                 </div>
               </div>
             </div>

@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Google.Apis.Auth;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using SetReminder.Angular.Interfaces;
 using SetReminder.Angular.Models;
 //using SetReminder.Angular.Models;
@@ -14,9 +16,11 @@ namespace SetReminder.Angular.Controllers
     public class ReminderSetController : ControllerBase
     {
         private readonly IReminderSetServices _reminderSetService;
-        public ReminderSetController(IReminderSetServices reminderSetServices)
+        private IConfigurationSection _configuration;
+        public ReminderSetController(IReminderSetServices reminderSetServices, IConfiguration configuration)
         {
             _reminderSetService = reminderSetServices;
+            _configuration = configuration.GetSection("GoogleAuthSettings");
         }
 
         [HttpGet("AllReminders")]
@@ -53,10 +57,22 @@ namespace SetReminder.Angular.Controllers
 
         [HttpPost]
         [Route("SaveReminder")]
-        public ActionResult<ReminderModel> SaveReminder(ReminderModel model)
+        public ActionResult<ResponseModel> SaveReminder(ReminderModel model)
         {
-            ReminderModel reponseModel = _reminderSetService.Create(model);
-            return reponseModel;
+            ResponseModel responseModel = new ResponseModel();
+            try
+            {
+                ReminderModel reminderModel = _reminderSetService.Create(model);
+                responseModel.ResponseMessage = "Created Successfully";
+                responseModel.Result = true;
+                return responseModel;
+            }
+            catch (Exception ex)
+            {
+                responseModel.ResponseMessage = ex?.InnerException?.InnerException?.Message ?? ex?.InnerException?.Message ?? ex?.Message;
+                responseModel.Result = false;
+                return responseModel;
+            }
         }
 
         [HttpPut("PutReminder/{id}")]
@@ -64,24 +80,46 @@ namespace SetReminder.Angular.Controllers
         {
             try
             {
+                ResponseModel responseModel = new ResponseModel();
                 _reminderSetService.Update(id, model);
-                return Ok("Updated");
+                responseModel.ResponseMessage = "Updated Successfully";
+                responseModel.Result = true;
+                return Ok(responseModel);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex);
-            }            
+            }
         }
 
         [HttpDelete("DeleteReminder/{id}")]
         public IActionResult DeleteReminder(string id)
         {
+            ResponseModel response = new ResponseModel();
             try
             {
+
                 _reminderSetService.Delete(id);
-                return Ok("Deleted");
+                response.Result = true;
+                response.ResponseMessage = "Deleted Successfully";
+                return Ok(response);
             }
-            catch(Exception ex)
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpGet("AuthGoogle")]
+        public IActionResult AuthGoogle()
+        {
+            try
+            {
+                _reminderSetService.AuthenticateGoogle();
+
+                return Ok();
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex);
             }

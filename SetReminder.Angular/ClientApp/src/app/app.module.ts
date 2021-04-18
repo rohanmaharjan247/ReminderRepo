@@ -12,6 +12,7 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReminderComponent } from './reminder/reminder.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
 
 @NgModule({
   declarations: [
@@ -27,9 +28,19 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,    
-    AppRoutingModule, NgbModule, FontAwesomeModule
+    AppRoutingModule, NgbModule, FontAwesomeModule, SocialLoginModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [{
+          id: GoogleLoginProvider.PROVIDER_ID,
+          provider: new GoogleLoginProvider('828767861160-ph21hugi7gmn8uljhc9qt5ndsveqb42o.apps.googleusercontent.com')
+        }]
+      } as SocialAuthServiceConfig
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
