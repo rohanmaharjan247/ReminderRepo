@@ -63,6 +63,7 @@ export class ReminderComponent implements OnInit {
     this.reminderForm.get('reminderDate').setValue(newDate);
     this.reminderForm.get('reminderEndDate').setValue(newDate);
     this.getReminders();
+    
   }
 
   getReminders() {
@@ -108,20 +109,15 @@ export class ReminderComponent implements OnInit {
   }
 
   authGoogle() {
-    //this._reminderService.signinGoogle().then((res) => {
-    //  const user: SocialUser = { ...res };
-    //  console.log(user);
-    //  const externalAuth: GoogleAuth = {
-    //    provider: user.provider,
-    //    idToken: user.idToken
-    //  };
-    //  this._reminderService.validateAuth(externalAuth).subscribe((data: any) => {
-    //    console.log(data);
-    //  });;
-    //}, err => console.error(err));
     this._reminderService.googleAuth().subscribe((data: any) => {
-
+      console.log(data);
     });
+  }
+
+  checkBackDates() {
+    this._reminderService.checkBackDates().subscribe((data: any) => {
+      console.log(data);
+    })
   }
 
   getReminderById(reminderId) {

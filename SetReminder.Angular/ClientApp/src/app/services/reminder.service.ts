@@ -44,4 +44,8 @@ export class ReminderService {
   validateAuth(googleAuth: GoogleAuth) {
     return this.http.post(`${this.apiUrl}api/ReminderSet/ValidateToken`, googleAuth);
   }
+
+  checkBackDates() {
+    return this.http.get(`${this.apiUrl}api/ReminderSet/CheckAndUpdateBackDates`);
+  }
 }

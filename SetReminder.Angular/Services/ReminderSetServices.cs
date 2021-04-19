@@ -3,6 +3,7 @@ using SetReminder.Angular.Context;
 using SetReminder.Angular.Helper;
 using SetReminder.Angular.Interfaces;
 using SetReminder.Angular.Models;
+using System;
 using System.Collections.Generic;
 
 namespace SetReminder.Angular.Services
@@ -19,7 +20,7 @@ namespace SetReminder.Angular.Services
             _reminders = database.GetCollection<ReminderModel>(settings.ReminderCollection);
         }
 
-        public List<ReminderModel> Get() => _reminders.Find(reminder => true).SortBy(r=>r.ReminderDate).ToList();
+        public List<ReminderModel> Get() => _reminders.Find(reminder => reminder.IsActive == true).SortBy(r=>r.ReminderDate).ToList();
         public ReminderModel Get(string Id) => _reminders.Find(reminder => reminder.ReminderId == Id).FirstOrDefault();
 
         public ReminderModel Create(ReminderModel reminder)
@@ -41,6 +42,29 @@ namespace SetReminder.Angular.Services
             List<ReminderModel> reminders = _reminders.Find(reminder => reminder.IsActive == true).ToList();
 
             auth.CreateEvent(reminders);
+        }
+
+        public void CheckandUpdateBackDates()
+        {
+            try
+            {
+                List<ReminderModel> backDateList = _reminders.Find(reminder => reminder.IsActive == true && reminder.ReminderEndDate < DateTime.Now).ToList();
+                if(backDateList!=null)
+                {
+                    if(backDateList.Count > 0)
+                    {
+                        foreach(ReminderModel backDate in backDateList)
+                        {
+                            backDate.IsActive = false;
+                            _reminders.ReplaceOne(backDate.ReminderId, backDate);                          
+                        }
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

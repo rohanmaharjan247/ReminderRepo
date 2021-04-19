@@ -124,5 +124,25 @@ namespace SetReminder.Angular.Controllers
                 return BadRequest(ex);
             }
         }
+
+        [HttpGet("CheckAndUpdateBackDates")]
+        public IActionResult CheckUpdateBackDate()
+        {
+            ResponseModel model = new ResponseModel();
+            try
+            {
+                _reminderSetService.CheckandUpdateBackDates();
+                model.Result = true;
+                model.ResponseMessage = "Deactive Previous Active Reminders Complete.";
+                return Ok(model);
+            }
+            catch(Exception ex)
+            {
+                model.Result = false;
+                model.ResponseMessage = ex?.InnerException?.InnerException?.Message ?? ex?.InnerException?.Message ?? ex?.Message;
+                return BadRequest(model);
+            }
+         
+        }
     }
 }
